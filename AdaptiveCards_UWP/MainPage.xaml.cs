@@ -27,6 +27,7 @@ namespace AdaptiveCards_UWP
     {
         private AdaptiveCardRenderer _cardRendrer;
         private AdaptiveCard _mainCard;
+        private AdaptiveColumnSet _mainColumnSet;
 
         public MainPage()
         {
@@ -111,6 +112,91 @@ namespace AdaptiveCards_UWP
                 IsSubtle = true
             });
 
+            // Create a column set to contain the input and image columns.
+            _mainColumnSet = new AdaptiveColumnSet
+            {
+                Separator = true,
+                Spacing = Spacing.Large,
+            };
+
+            // Add a column that contains one of each type of input.
+            AddInputColumn("Adaptive inputs");
+
+            // Add the column set to the card.
+            _mainCard.Body.Add(_mainColumnSet);
+        }
+
+        private void AddInputColumn(string title)
+        {
+            //Create a column
+            var col = new AdaptiveColumn();
+
+            col.Items.Add(new AdaptiveTextBlock
+            {
+                Text = title,
+                Size = TextSize.Large,
+            });
+
+            col.Items.Add(new AdaptiveDateInput
+            {
+                Id = "Date",
+                Placeholder = "Enter a date"
+            });
+
+            col.Items.Add(new AdaptiveNumberInput
+            {
+                Id = "Number",
+                Placeholder = "Enter a number",
+            });
+
+            col.Items.Add(new AdaptiveTextInput
+            {
+                Id = "Text",
+                Placeholder = "Enter some text"
+            });
+
+            col.Items.Add(new AdaptiveTimeInput
+            {
+                Id = "Time",
+                Placeholder = "Enter a time",
+            });
+
+            col.Items.Add(new AdaptiveToggleInput
+            {
+                Id = "Toggle",
+                Title = "toggle on or off",
+                ValueOn = "On",
+                ValueOff = "Off"
+            });
+            // Create a collection for the choice input set.
+            var choiceSet = new AdaptiveChoiceSetInput
+            {
+                Id = "ChoiceSet",
+                IsMultiSelect = true,
+            };
+
+            // Create the individual choices.
+            choiceSet.Choices.Add(new AdaptiveChoiceInput
+            {
+                Title = "Choice 1",
+                Value = "10"
+            });
+            choiceSet.Choices.Add(new AdaptiveChoiceInput
+            {
+                Title = "Choice 2",
+                Value = "20"
+            });
+            choiceSet.Choices.Add(new AdaptiveChoiceInput
+            {
+                Title = "Choice 3",
+                Value = "30"
+            });
+
+            // Add the choice set to the column.
+            col.Items.Add(choiceSet);
+
+            // Add the column to the column set.
+            _mainColumnSet.Columns.Add(col);
         }
     }
 }
